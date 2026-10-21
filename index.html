@@ -162,7 +162,8 @@
 
         function checkCode() {
             if (currentInput === correctCode) {
-                alert("Yayy! Correct Code ❤️");
+                window.location.href = "page2.html";
+                
                 // Jaise hi ye page set ho jaye, mujhe batana taaki hum agle page ka code likhein!
             } else {
                 document.getElementById("errorMsg").innerText = "Wrong Code! Try Again 😡";
