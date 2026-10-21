@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Surprise ❤️</title>
+    <style>
+        body {
+            background-color: #ffc0cb; /* Cute Pink Theme */
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 320px;
+            width: 90%;
+        }
+        /* GIF Styling */
+        .gif-container img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid #ff69b4;
+        }
+        h2 {
+            color: #d81b60;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 80%;
+            padding: 12px;
+            font-size: 18px;
+            text-align: center;
+            border: 2px solid #ffb6c1;
+            border-radius: 10px;
+            outline: none;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+        input:focus {
+            border-color: #d81b60;
+        }
+        button {
+            background-color: #ff1493;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            box-Oshadow: 0 4px 10px rgba(255,20,147,0.3);
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- YAHAN APNI GIF KA LINK DALNA -->
+        <div class="gif-container">
+            <img src="https://media.giphy.com/media/3o7TKSjRrfIPjeiOkM/giphy.gif" alt="Cute GIF">
+        </div>
+
+        <h2>Enter Secret Passcode ❤️</h2>
+        <input type="password" id="passcode" placeholder="Enter Code" maxlength="6">
+        <br>
+        <button onclick="checkPass()">Submit</button>
+        <div id="errorMsg" class="error">Galat code hai bubuu! Phir se try kro 😡</div>
+    </div>
+
+    <script>
+        function checkPass() {
+            const code = document.getElementById('passcode').value;
+            const correctCode = "292608"; // Tera diya hua code
+
+            if (code === correctCode) {
+                alert("Yayy! Sahi code hai ❤️ Ab aage chalte hain!");
+                // Yahan hum next page ka code ya function link karenge aage
+            } else {
+                document.getElementById('errorMsg').style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>
