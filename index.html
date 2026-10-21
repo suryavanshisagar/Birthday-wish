@@ -3,105 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Special Surprise ❤️</title>
+    <title>Enter Code - Birthday Surprise</title>
     <style>
         body {
-            background-color: #ffc0cb; /* Cute Pink Theme */
-            font-family: 'Arial', sans-serif;
+            background-color: #ffccd5; /* Cute Pink Theme */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
             overflow: hidden;
         }
         .container {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            background: #fff0f3;
+            padding: 20px;
+            border-radius: 25px;
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
             text-align: center;
-            max-width: 320px;
-            width: 90%;
+            width: 320px;
+            border: 2px solid #ffb3c1;
         }
-        /* GIF Styling */
         .gif-container img {
             width: 120px;
             height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            margin-bottom: 15px;
-            border: 3px solid #ff69b4;
+            border: 3px solid #ff758c;
+            margin-bottom: 10px;
         }
         h2 {
-            color: #d81b60;
+            color: #d81159;
+            margin: 5px 0 15px 0;
             font-size: 22px;
-            margin-bottom: 20px;
         }
-        input {
-            width: 80%;
+        .display-box {
+            background: #ffffff;
+            border: 2px dashed #ff758c;
+            border-radius: 12px;
             padding: 12px;
-            font-size: 18px;
-            text-align: center;
-            border: 2px solid #ffb6c1;
-            border-radius: 10px;
-            outline: none;
-            margin-bottom: 15px;
-            letter-spacing: 2px;
+            font-size: 26px;
+            letter-spacing: 8px;
+            color: #d81159;
+            margin-bottom: 20px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
         }
-        input:focus {
-            border-color: #d81b60;
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
         }
-        button {
-            background-color: #ff1493;
+        .key {
+            background: #ff758c;
             color: white;
             border: none;
-            padding: 12px 25px;
-            font-size: 16px;
-            border-radius: 10px;
-            cursor: pointer;
+            padding: 15px;
+            font-size: 20px;
             font-weight: bold;
-            box-Oshadow: 0 4px 10px rgba(255,20,147,0.3);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 10px rgba(255, 117, 140, 0.4);
         }
-        button:active {
+        .key:active {
             transform: scale(0.95);
+            background: #ff477e;
         }
-        .error {
+        .key.action {
+            background: #ffb3c1;
+            color: #d81159;
+        }
+        .error-msg {
             color: red;
             font-size: 14px;
             margin-top: 10px;
-            display: none;
+            height: 18px;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- YAHAN APNI GIF KA LINK DALNA -->
+        <!-- GIF Section: Yahan apni GIF ka naam ya link daal dena -->
         <div class="gif-container">
-            <img src="https://media.giphy.com/media/3o7TKSjRrfIPjeiOkM/giphy.gif" alt="Cute GIF">
+            <img src="cute.gif" alt="Cute GIF" id="myGif">
         </div>
 
-        <h2>Enter Secret Passcode ❤️</h2>
-        <input type="password" id="passcode" placeholder="Enter Code" maxlength="6">
-        <br>
-        <button onclick="checkPass()">Submit</button>
-        <div id="errorMsg" class="error">Galat code hai bubuu! Phir se try kro 😡</div>
+        <h2>Enter Code</h2>
+
+        <!-- Entered digits display -->
+        <div class="display-box" id="displayBox"></div>
+
+        <!-- On-screen Keypad -->
+        <div class="keypad">
+            <button class="key" onclick="pressNum('1')">1</button>
+            <button class="key" onclick="pressNum('2')">2</button>
+            <button class="key" onclick="pressNum('3')">3</button>
+            <button class="key" onclick="pressNum('4')">4</button>
+            <button class="key" onclick="pressNum('5')">5</button>
+            <button class="key" onclick="pressNum('6')">6</button>
+            <button class="key" onclick="pressNum('7')">7</button>
+            <button class="key" onclick="pressNum('8')">8</button>
+            <button class="key" onclick="pressNum('9')">9</button>
+            <button class="key action" onclick="clearCode()">C</button>
+            <button class="key" onclick="pressNum('0')">0</button>
+            <button class="key action" onclick="deleteNum()">⌫</button>
+        </div>
+
+        <div class="error-msg" id="errorMsg"></div>
     </div>
 
     <script>
-        function checkPass() {
-            const code = document.getElementById('passcode').value;
-            const correctCode = "292608"; // Tera diya hua code
+        let currentInput = "";
+        const correctCode = "292608";
 
-            if (code === correctCode) {
-                alert("Yayy! Sahi code hai ❤️ Ab aage chalte hain!");
-                // Yahan hum next page ka code ya function link karenge aage
+        function pressNum(num) {
+            if (currentInput.length < 6) {
+                currentInput += num;
+                updateDisplay();
+                
+                if (currentInput.length === 6) {
+                    checkCode();
+                }
+            }
+        }
+
+        function deleteNum() {
+            currentInput = currentInput.slice(0, -1);
+            updateDisplay();
+            document.getElementById("errorMsg").innerText = "";
+        }
+
+        function clearCode() {
+            currentInput = "";
+            updateDisplay();
+            document.getElementById("errorMsg").innerText = "";
+        }
+
+        function updateDisplay() {
+            // Mask the code with dots or show numbers (yahan digits show ho rhe hain)
+            let masked = currentInput.replace(/./g, '•');
+            document.getElementById("displayBox").innerText = masked;
+        }
+
+        function checkCode() {
+            if (currentInput === correctCode) {
+                // Sahi code hone par agle page ya alert pe redirect hoga
+                alert("Yayy! Correct Code ❤️");
+                // Yahan hum agle step (Yes/No page) ka link laga denge
+                // window.location.href = "page2.html";
             } else {
-                document.getElementById('errorMsg').style.display = "block";
+                document.getElementById("errorMsg").innerText = "Wrong Code! Try Again 😡";
+                setTimeout(() => {
+                    currentInput = "";
+                    updateDisplay();
+                    document.getElementById("errorMsg").innerText = "";
+                }, 1000);
             }
         }
     </script>
-
 </body>
 </html>
